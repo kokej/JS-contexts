@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+<button id="myButton">myButton</button>
+
+    <script>
+
+        var a = {
+            getContext:function(){
+                console.log(this);
+            }
+        };
+        a.getContext(); // Object {getContext: function}
+
+        var b={
+            getContext:function(){
+                setTimeout(function(){
+                    console.log(this);
+                }, 10)
+            }
+        }
+        b.getContext(); // Window
+
+        document.getElementById('myButton').addEventListener('click', function(){
+            console.log(this);
+        }, false);
+
+        //on click <button id="myButton">myButton</button>
+        //this = element that activates the event
+
+        function foo(){
+            console.log(this);
+        }
+        foo(); // Window
+
+        (function(){
+            console.log(this);
+        })() //e Window
+/*
+        (function(){
+            'use strict';
+            console.log(this);
+        })() // undefined
+*/
+
+        var c = {
+            name:'penny',
+            getContext:function(){
+                return this;
+            }
+        }
+        c.getContext(); // Objet {name:"penny", getContext: function}
+
+        function Friend(area, favLan){
+            this.area = area;
+            this.favLan = favLan;
+            this.context = this;
+        }
+
+        var frnd1 = new Friend('client','js');
+
+        console.log(frnd1.context); // Friend {area: "client", favLan: "js", context: Friend}
+
+        var dad = {
+            fatherName:'bigDad'
+        }
+        var child = Object.create(dad);
+
+        child.whoIsYourDad = function(){
+            console.log(this.fatherName);
+        }
+
+        child.whoIsYourDad(); // "bigDad"
+
+        function getMenu(){
+            console.log(this);
+        }
+        var devMenu = {menu:'pizza'};
+        var forDev = getMenu.bind(devMenu);
+        forDev(); // Object {menu: "pizza"}
+
+
+
+
+    </script>
+
+</body>
+</html>
